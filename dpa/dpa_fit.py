@@ -319,7 +319,7 @@ class DPA(object):
         loss = sum(losses)
         if self.match_latent:
             z_gauss = torch.randn((gen1.size(0), self.latent_dim), device=self.device)
-            indices = torch.randperm(gen1.size(0), device=self.device)
+            indices = np.random.permutation(gen1.size(0))
             idx1 = indices[:(gen1.size(0) // 2)]
             idx2 = indices[(gen1.size(0) // 2):]
             z1 = z[idx1, :]
