@@ -250,7 +250,8 @@ class DPA(object):
             # assert torch.is_tensor(x)
             # todo
         else:
-            train_loader = make_dataloader(x, c, batch_size=batch_size, shuffle=True)
+            train_loader = make_dataloader(x, c, batch_size=batch_size, shuffle=True,
+                                           device=self.device)
             print(f"Start training with {len(train_loader)} batches each of size {batch_size}.\n")
             if self.condition_dim is not None:
                 c = utils.onehot2num(c)
@@ -318,7 +319,7 @@ class DPA(object):
         loss = sum(losses)
         if self.match_latent:
             z_gauss = torch.randn((gen1.size(0), self.latent_dim), device=self.device)
-            indices = np.random.permutation(gen1.size(0))
+            indices = torch.randperm(gen1.size(0), device=self.device)
             idx1 = indices[:(gen1.size(0) // 2)]
             idx2 = indices[(gen1.size(0) // 2):]
             z1 = z[idx1, :]
